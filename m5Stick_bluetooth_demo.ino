@@ -37,14 +37,20 @@ void receiveString() {
 
   if (SerialBT.available()>0) {
     int i=0;
+    char ch;
     // loop here until there is nothing left in the serial port
     while (SerialBT.available()>0){
       delay(10);
-      strBuffer[i]=SerialBT.read();
-      i++;   
+      ch = SerialBT.read();
+      if (ch == '\r' || ch == '\n') {
+        strBuffer[i]=0;
+      }
+      else {
+        strBuffer[i++]=ch;
+      }
     }
     //- add null termination at the end
-    strBuffer[i-2]=0; 
+    //strBuffer[i-2]=0; 
     Serial.print("I just received: ");
     Serial.println(strBuffer);
 
